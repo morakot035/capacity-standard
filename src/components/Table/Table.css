@@ -1,0 +1,49 @@
+.table-wrapper {
+  overflow-x: auto; /* ทำให้สามารถเลื่อนในแนวนอนได้ */
+  -webkit-overflow-scrolling: touch; /* เพิ่มการเลื่อนที่ลื่นไหลบน iOS */
+}
+.responsive-table {
+  border-collapse: collapse;
+}
+
+.responsive-table th, .responsive-table td {
+  border: 1px solid #F5F5F5;
+  padding: 13px;
+  text-align: center;
+}
+
+.no-data {
+  background-color: #fff3cd; /* สีพื้นหลังแดงอ่อน */
+  color: #856404; /* สีตัวอักษรแดงเข้ม */
+  border: 1px solid #ffeeba; /* เส้นขอบสีแดงอ่อน */
+  padding: 5px; /* เพิ่มระยะห่างภายใน */
+  text-align: center; /* จัดข้อความไว้ตรงกลาง */
+  font-size: 12px; /* ขนาดตัวอักษรใหญ่ขึ้น */
+  border-radius: 8px; /* มุมกลม */
+  margin: 20px 0; /* ระยะห่างระหว่าง container */
+  font-family: 'Kanit', 'sans-serif'; /* ฟอนต์แบบง่าย */
+}
+
+.linePTB {
+  background-color: #cce5ff; /* สีพื้นหลังน้ำเงินอ่อน */
+  color: #004085; /* สีตัวอักษรน้ำเงินเข้ม */
+  border: 1px solid #b8daff; /* เส้นขอบสีน้ำเงินอ่อน */
+  padding: 5px; /* เพิ่มระยะห่างภายใน */
+  text-align: center; /* จัดข้อความไว้ตรงกลาง */
+  border-radius: 8px; /* มุมกลม */
+  margin: 20px 0; /* ระยะห่างระหว่าง container */
+  font-family: 'Kanit', 'sans-serif'; /* ฟอนต์แบบง่าย */
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+.table-row-hover:hover {
+  background-color: #f5f5f5; /* สีเมื่อโฮเวอร์ */
+  cursor: pointer; /* แสดงเป็น pointer เมื่อโฮเวอร์ */
+}
+
+.linePTB.pressed {
+  background-color: #b8daff; /* สีเมื่อกด */
+  color: #004085; /* สีตัวอักษรเมื่อกด */
+  transform: scale(0.98); /* ลดขนาดลงเล็กน้อย */
+}

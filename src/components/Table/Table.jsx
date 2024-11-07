@@ -328,6 +328,7 @@ export default function BasicTable({
       (!selectedPlant || plant.name === selectedPlant) // กรองตาม plant.name
     ).map(plant => ({
       ...plant,
+      documentId: item.id,
       lines: plant.lines.filter(line => {
         const isLineMatch = selectedLines.length === 0 || selectedLines.some(selected => 
           selected.title === line.lineName && selected.firstLetter === plant.name // ตรวจสอบว่า title ของ line ตรงกับ selected.title

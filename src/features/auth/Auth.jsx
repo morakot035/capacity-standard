@@ -3,13 +3,13 @@ import { Box,Button, Typography, TextField } from "@mui/material"
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 import Divider from '@mui/material/Divider';
 import { styled } from '@mui/material/styles';
-import { doSignInWithEmailAndPassword, doSignInWithGoogle } from "../../firebase/auth"
-import { useAuth } from "./../../context"
-import { Navigate, Link } from 'react-router-dom'
-import Alert from '@mui/material/Alert';
-import GoogleIcon from '@mui/icons-material/Google'; 
-import Logo from "./../../images/logo.png";
-import BG from "./../../images/bg.JPG";
+import { doSignInWithEmailAndPassword, doSignInWithGoogle } from "../../shared/services/firebase/auth"
+import { useAuth } from "../../shared/context"
+import Logo from "../../assets/logo.png";
+import BG from "../../assets/bg.JPG";
+import { Navigate } from "react-router-dom";
+import Alert from "@mui/material/Alert";
+import GoogleIcon from "@mui/icons-material/Google";
 
 const Root = styled('div')(({ theme }) => ({
     width: '100%',
@@ -81,7 +81,7 @@ const Auth = () => {
             justifyContent: "center",
             alignItems: "center",
         }}>
-            {userLoggedIn && (<Navigate to={'/mainDash'} replace={true} />)}
+            {userLoggedIn && (<Navigate to={'/dashboard'} replace={true} />)}
             <form onSubmit={handleSubmit}>
                 <Box 
                     display="flex" 
@@ -148,6 +148,7 @@ const Auth = () => {
                         <Divider>OR</Divider>
                     </Root>
                     <Button
+                        onClick={onGoogleSignIn}
                         variant="contained"
                         startIcon={<GoogleIcon />} // ไอคอน Google
                         sx={{

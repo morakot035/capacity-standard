@@ -10,7 +10,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
-import { db } from "../../firebase/firebase"
+import { db } from "../../services/firebase/firebase"
 import { collection, getDoc, doc,onSnapshot, updateDoc } from "firebase/firestore";
 import ForecastCell from "./ForecastCell"
 import WorkDayCell from "./WorkDayCell"

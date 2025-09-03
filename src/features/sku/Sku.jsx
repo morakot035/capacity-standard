@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Sidebar from "../Sidebar";
+import Sidebar from "../../shared/components/Sidebar/Sidebar";
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -17,7 +17,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
 import Paper from '@mui/material/Paper';
-import { db } from "../../firebase/firebase"
+import { db } from "../../shared/services/firebase/firebase"
 import { collection, addDoc, getDocs,deleteDoc, doc,onSnapshot, updateDoc } from "firebase/firestore";
 
 
@@ -40,11 +40,11 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
 
-const Product = () => {
+const Sku = () => {
   const [form, setForm] = useState({})
   const [data, setData] = useState([])
   const [editId, setEditId] = useState(null);
-  const groupProduct = collection(db, "products")
+  const sku = collection(db, "sku")
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -65,7 +65,7 @@ const Product = () => {
   },[])
 
   const loadRealtime =  () => {
-    const unsubscribe = onSnapshot(groupProduct, (snapshot) => {
+    const unsubscribe = onSnapshot(sku, (snapshot) => {
       const newData = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
@@ -79,7 +79,7 @@ const Product = () => {
 
   const handleAddData = async () => {
     if (editId) {
-      const docRef = doc(db, "products", editId);
+      const docRef = doc(db, "sku", editId);
       await updateDoc(docRef, form)
         .then(() => {
           setEditId(null);
@@ -87,7 +87,7 @@ const Product = () => {
         })
         .catch((err) => console.log(err));
     } else {
-      await addDoc(groupProduct, form)
+      await addDoc(sku, form)
         .then((res) => {
           setForm({});
         })
@@ -104,7 +104,7 @@ const Product = () => {
 
   const handleDelete = async (id) => {
     try {
-      await deleteDoc(doc(groupProduct, id));
+      await deleteDoc(doc(sku, id));
     } catch (err) {
       console.log(err);
     }
@@ -120,30 +120,39 @@ const Product = () => {
           <Sidebar />
           <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <DrawerHeader />
-          <h1 style={{fontFamily: 'Kanit, sans-serif'}}>Group Product</h1>
+          <h1>SKU</h1>
           
                 <Box
                   component="form"
                   sx={{
-                    '& > :not(style)': { m: 1, width: '25ch' },
+                    '& > :not(style)': { m: 2, width: '30ch' },
                   }}
                   noValidate
                   autoComplete="off"
                 >
                   <TextField 
                   onChange={(e) => handleChange(e)}
-                  value={form.productName || ''}
-                  name="productName" 
+                  value={form.skuName || ''}
+                  name="skuName" 
                   id="outlined-basic" 
-                  label="Product" 
+                  label="SKU" 
+                  variant="outlined" />
+
+                  <TextField 
+                  onChange={(e) => handleChange(e)}
+                  value={form.size || ''}
+                  name="size" 
+                  id="outlined-basic" 
+                  label="Size (L/Bottle)" 
                   variant="outlined" />
                 </Box>
+                
             
-            <FormControl sx={{ m: 1, width: 400 }}>
+            <FormControl sx={{ m: 2, width: 400 }}>
                 <Stack direction="row" spacing={10}>
               
-                  <Button style={{fontFamily: 'Kanit, sans-serif'}} size="large" variant="contained" onClick={handleAddData} endIcon={<DoneAll />}>
-                    ตกลง
+                  <Button size="large" variant="contained" onClick={handleAddData} endIcon={<DoneAll />}>
+                    Submit
                   </Button>
               </Stack>
             </FormControl>
@@ -152,9 +161,10 @@ const Product = () => {
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    <StyledTableCell style={{fontFamily: 'Kanit, sans-serif'}} width={"100%"}><b>Group Product</b></StyledTableCell>
-                    <StyledTableCell style={{fontFamily: 'Kanit, sans-serif'}} align="center">Edit</StyledTableCell>
-                    <StyledTableCell style={{fontFamily: 'Kanit, sans-serif'}} align="center">Delete</StyledTableCell>
+                    <StyledTableCell width={"50%"}><b>SKUs</b></StyledTableCell>
+                    <StyledTableCell width={"50%"}><b>Size (L/Bottle)</b></StyledTableCell>
+                    <StyledTableCell align="center">Edit</StyledTableCell>
+                    <StyledTableCell align="center">Delete</StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -167,7 +177,10 @@ const Product = () => {
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
                       <TableCell component="th" scope="row">
-                        {row.productName}
+                        {row.skuName}
+                      </TableCell>
+                      <TableCell component="th" scope="row">
+                        {row.size}
                       </TableCell>
                       <TableCell align="center">
                         <Button variant="contained" color="primary" onClick={() => handleEdit(row)}>
@@ -201,4 +214,4 @@ const Product = () => {
   );
 };
 
-export default Product;
+export default Sku;

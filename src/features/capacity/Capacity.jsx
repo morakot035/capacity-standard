@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { Theme, useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -10,8 +10,8 @@ import ListSubheader from '@mui/material/ListSubheader';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { Button, Backdrop, CircularProgress, Checkbox } from "@mui/material";
-import Table from "../Table/Table";
-import { db } from "../../firebase/firebase"
+import Table from "../../shared/components/Table/Table";
+import { db } from "../../shared/services/firebase/firebase"
 import { collection, addDoc, getDocs,deleteDoc, doc,onSnapshot, updateDoc } from "firebase/firestore";
 
 const ITEM_HEIGHT = 48;

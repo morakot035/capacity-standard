@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, TableCell } from '@mui/material';
 import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../../firebase/firebase"
+import { db } from "../../services/firebase/firebase"
 import Tooltip from '@mui/material/Tooltip';
 
 const EffCell = ({ documentId, plantIndex, lineIndex, line, detail, detailIndex, onUpdateEff }) => {

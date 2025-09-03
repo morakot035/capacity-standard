@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Sidebar from "../Sidebar";
+import Sidebar from "../../shared/components/Sidebar/Sidebar";
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -16,13 +16,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import Collapse from '@mui/material/Collapse';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-import { db } from "../../firebase/firebase"
+import { db } from "../../shared/services/firebase/firebase"
 import { collection, addDoc, getDocs,deleteDoc, doc,onSnapshot, updateDoc } from "firebase/firestore";
 
 
@@ -45,12 +40,11 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
 
-const Plant = () => {
-  const [open, setOpen] = useState(false);
+const Product = () => {
   const [form, setForm] = useState({})
   const [data, setData] = useState([])
   const [editId, setEditId] = useState(null);
-  const plant = collection(db, "plant")
+  const groupProduct = collection(db, "products")
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -71,7 +65,7 @@ const Plant = () => {
   },[])
 
   const loadRealtime =  () => {
-    const unsubscribe = onSnapshot(plant, (snapshot) => {
+    const unsubscribe = onSnapshot(groupProduct, (snapshot) => {
       const newData = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
@@ -85,7 +79,7 @@ const Plant = () => {
 
   const handleAddData = async () => {
     if (editId) {
-      const docRef = doc(db, "plant", editId);
+      const docRef = doc(db, "products", editId);
       await updateDoc(docRef, form)
         .then(() => {
           setEditId(null);
@@ -93,7 +87,7 @@ const Plant = () => {
         })
         .catch((err) => console.log(err));
     } else {
-      await addDoc(plant, form)
+      await addDoc(groupProduct, form)
         .then((res) => {
           setForm({});
         })
@@ -110,7 +104,7 @@ const Plant = () => {
 
   const handleDelete = async (id) => {
     try {
-      await deleteDoc(doc(plant, id));
+      await deleteDoc(doc(groupProduct, id));
     } catch (err) {
       console.log(err);
     }
@@ -122,11 +116,11 @@ const Plant = () => {
   };
   return (
     <>
-      <Box style={{fontFamily: 'Kanit, sans-serif'}} sx={{ display: 'flex' }}>
+      <Box sx={{ display: 'flex' }}>
           <Sidebar />
           <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <DrawerHeader />
-          <h1>Plant</h1>
+          <h1 style={{fontFamily: 'Kanit, sans-serif'}}>Group Product</h1>
           
                 <Box
                   component="form"
@@ -138,10 +132,10 @@ const Plant = () => {
                 >
                   <TextField 
                   onChange={(e) => handleChange(e)}
-                  value={form.plantName || ''}
-                  name="plantName" 
+                  value={form.productName || ''}
+                  name="productName" 
                   id="outlined-basic" 
-                  label="Plant" 
+                  label="Product" 
                   variant="outlined" />
                 </Box>
             
@@ -155,37 +149,25 @@ const Plant = () => {
             </FormControl>
             <FormControl sx={{ m: 1, width: "100%" }}>
             <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} aria-label="collapsible table">
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    <StyledTableCell />
-                    <StyledTableCell style={{fontFamily: 'Kanit, sans-serif'}} width={"100%"}><b>Plant</b></StyledTableCell>
+                    <StyledTableCell style={{fontFamily: 'Kanit, sans-serif'}} width={"100%"}><b>Group Product</b></StyledTableCell>
                     <StyledTableCell style={{fontFamily: 'Kanit, sans-serif'}} align="center">Edit</StyledTableCell>
                     <StyledTableCell style={{fontFamily: 'Kanit, sans-serif'}} align="center">Delete</StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                
                   {data
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
-                    <React.Fragment>
                     <TableRow
                       key={row.id}
                       tabIndex={-1}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
-                        <TableCell>
-                            <IconButton
-                                aria-label="expand row"
-                                size="small"
-                                onClick={() => setOpen(!open)}
-                            >
-                                {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                            </IconButton>
-                        </TableCell>
                       <TableCell component="th" scope="row">
-                        <span style={{color: "blue", fontWeight: "bold"}}> {row.plantName} </span>
+                        {row.productName}
                       </TableCell>
                       <TableCell align="center">
                         <Button variant="contained" color="primary" onClick={() => handleEdit(row)}>
@@ -198,37 +180,7 @@ const Plant = () => {
                         </Button>
                       </TableCell>
                     </TableRow>
-                     <TableRow>
-                     <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-                        <Collapse in={open} timeout="auto" unmountOnExit>
-                         <Box sx={{ margin: 1 }}>
-                         <Typography variant="h6" gutterBottom component="div">
-                            ไลน์ผลิต
-                         </Typography>
-                         <Table size="small" aria-label="purchases">
-                             <TableHead>
-                                 <TableRow>
-                                     <TableCell></TableCell>
-                                 </TableRow>
-                             </TableHead>
-                             <TableBody>
-                                 {row.lines.map((line) => (
-                                     <TableRow key={line}>
-                                         <TableCell component="th" scope="row">
-                                             {line}
-                                         </TableCell>
-                                     </TableRow>
-                                 ))}
- 
-                             </TableBody>
-                         </Table>
-                         </Box>
-                         </Collapse>
-                     </TableCell>
-                   </TableRow>
-                   </React.Fragment>
                   ))}
-                 
                 </TableBody>
               </Table>
             </TableContainer>
@@ -249,4 +201,4 @@ const Plant = () => {
   );
 };
 
-export default Plant;
+export default Product;

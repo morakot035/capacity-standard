@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from 'react-router-dom'
 
-import Logo from "../images/logo.png";
+import Logo from "../../../assets/logo.png";
 import { styled, useTheme} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import { useAuth } from './../context'
-import { doSignOut } from './../firebase/auth'
+import { useAuth } from '../../../shared/context'
+import { doSignOut } from '../../../shared/services/firebase/auth'
 
 const drawerWidth = 240;
 

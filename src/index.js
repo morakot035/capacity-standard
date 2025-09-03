@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
+
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider, Route, Link } from 'react-router-dom'; 
-import MainDash from './components/MainDash/MainDash';
-import Product from './components/Product/Product';
-import Plant from './components/Plant/Plant';
-import Sku from './components/SKU/Sku';
-import Auth from "./components/Auth/Auth"
-import { AuthProvider } from "./context";
-import ProtectedRoute from "./context/ProtectedRoute";
+import MainDash from './features/dashboard/MainDash';
+import Product from './features/product/Product';
+import Plant from './features/plant/Plant';
+import Sku from './features/sku/Sku';
+import Auth from "./features/auth/Auth"
+import { AuthProvider } from "./shared/context";
+import ProtectedRoute from "./shared/context/ProtectedRoute";
 
 const router = createBrowserRouter([
   {

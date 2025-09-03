@@ -1,6 +1,6 @@
 import React from "react";
-import Capacity from "../Capacity/Capacity";
-import Sidebar from "../Sidebar"
+import Capacity from "../capacity/Capacity";
+import Sidebar from "../../shared/components/Sidebar/Sidebar"
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 
